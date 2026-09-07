@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0A140F">
+<title>Orchard Snake Battle</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="stage">
+  <div class="particles" id="particles"></div>
+
+  <!-- MENU -->
+  <div class="screen active" id="screen-menu">
+    <div class="menu-spacer"></div>
+    <h1 class="menu-title"><span class="line1">ORCHARD</span><span class="line2">SNAKE</span></h1>
+    <p class="menu-subtitle" id="menuSubtitle">Grow Big · Rule The Forest</p>
+    <p class="level-indicator" id="levelIndicator">Level 1 · Sprout Grove · 2 Rivals</p>
+    <div class="menu-buttons" id="menuButtons">
+      <button class="menu-btn primary" id="btnPlay" data-key="play">Play</button>
+      <button class="menu-btn" id="btnLevels" data-key="levels">Levels</button>
+      <button class="menu-btn" id="btnOpponents" data-key="opponents">Opponents</button>
+      <button class="menu-btn" id="btnChoose" data-key="chooseSnake">Choose Snake</button>
+      <button class="menu-btn" id="btnAchievements" data-key="achievements">Achievements</button>
+      <button class="menu-btn" id="btnBest" data-key="bestScore">Best Score</button>
+      <button class="menu-btn" id="btnHow" data-key="howToPlay">How To Play</button>
+      <button class="menu-btn" id="btnSettings" data-key="settings">Settings</button>
+    </div>
+    <div class="menu-spacer"></div>
+    <p class="menu-footer" id="menuFooter">A Battle In The Orchard</p>
+  </div>
+
+  <!-- LEVELS -->
+  <div class="screen" id="screen-levels">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="levelsTitle">Levels</h2>
+    </div>
+    <p class="sub-meta" id="levelsProgress">0 levels unlocked so far</p>
+    <div id="zonesContainer" style="width:100%; display:flex; flex-direction:column; align-items:center;"></div>
+  </div>
+
+  <!-- OPPONENTS -->
+  <div class="screen" id="screen-opponents">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="opponentsTitle">Choose Opponents</h2>
+    </div>
+    <div class="levels-list" id="opponentsList"></div>
+  </div>
+
+  <!-- CHOOSE SNAKE -->
+  <div class="screen" id="screen-picker">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="pickerTitle">Choose Your Snake</h2>
+    </div>
+    <div class="swatches-grid" id="swatchesGrid"></div>
+    <button class="action-btn" id="startBattleBtn" style="margin-top:24px;" data-key="startBattle">Start Battle</button>
+  </div>
+
+  <!-- ACHIEVEMENTS -->
+  <div class="screen" id="screen-achievements">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="achTitle">Achievements</h2>
+    </div>
+    <p class="sub-meta" id="achProgress">0 / 0 unlocked</p>
+    <div class="ach-list" id="achList"></div>
+  </div>
+
+  <!-- HOW TO PLAY -->
+  <div class="screen" id="screen-instructions">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="howTitle">How To Play</h2>
+    </div>
+    <div class="rules-list" id="rulesList">
+      <div class="rule-item" data-key="rule1"><b>Move</b> with arrow keys, WASD, or the on-screen pad. Swipe on touch screens.</div>
+      <div class="rule-item" data-key="rule2"><b>Eat fruit</b> to grow longer and score points.</div>
+      <div class="rule-item" data-key="rule3"><b>Avoid</b> the walls, your own body, and every other snake's body.</div>
+      <div class="rule-item" data-key="rule4"><b>Battle</b> computer-controlled snakes hunting the same fruit. Pick how many from Opponents in the menu.</div>
+      <div class="rule-item" data-key="rule5">When any snake <b>dies</b>, its body turns into fruit for the survivors.</div>
+      <div class="rule-item" data-key="rule6"><b>Win</b> a level by outlasting every opponent to unlock the next one. Levels go on forever, so keep climbing! Press space to pause.</div>
+    </div>
+  </div>
+
+  <!-- BEST SCORE -->
+  <div class="screen" id="screen-best">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="bestTitle">Best Score</h2>
+    </div>
+    <div class="best-card">
+      <div class="num" id="bestScoreNum">0</div>
+      <div class="cap" id="bestFruitLabel">Fruit Eaten (Best Run)</div>
+    </div>
+    <div class="best-card">
+      <div class="num" id="maxLevelNum">0</div>
+      <div class="cap" id="maxLevelLabel">Furthest Level Cleared</div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="screen-settings">
+    <div class="sub-header">
+      <div class="back-btn" data-back>&#8249;</div>
+      <h2 class="sub-title" id="settingsTitle">Settings</h2>
+    </div>
+    <div class="settings-list">
+      <div class="setting-row">
+        <span class="sr-label" data-key="soundLabel">Sound</span>
+        <div class="toggle" id="toggleSound" data-key="sound"><div class="knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="musicLabel">Music</span>
+        <div class="toggle" id="toggleMusic" data-key="music"><div class="knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="volumeLabel">Master Volume</span>
+        <div class="sr-control">
+          <input type="range" class="settings-slider" id="volumeSlider" min="0" max="100" value="70">
+        </div>
+      </div>
+      <div class="setting-row stack">
+        <span class="sr-label" data-key="speedLabel">Game Speed</span>
+        <div class="seg-group" id="speedGroup">
+          <button class="seg-btn" data-value="easy">Easy</button>
+          <button class="seg-btn" data-value="normal">Normal</button>
+          <button class="seg-btn" data-value="hard">Hard</button>
+          <button class="seg-btn" data-value="extreme">Extreme</button>
+        </div>
+      </div>
+      <div class="setting-row stack">
+        <span class="sr-label" data-key="graphicsLabel">Graphics Quality</span>
+        <div class="seg-group" id="graphicsGroup">
+          <button class="seg-btn" data-value="low">Low</button>
+          <button class="seg-btn" data-value="medium">Medium</button>
+          <button class="seg-btn" data-value="high">High</button>
+        </div>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="themeLabel">Theme</span>
+        <select class="settings-select" id="themeSelect">
+          <option value="forest">Forest</option>
+          <option value="neon">Neon</option>
+          <option value="cloudy">Cloudy</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="languageLabel">Language</span>
+        <select class="settings-select" id="languageSelect">
+          <option value="english">English</option>
+          <option value="urdu">Urdu</option>
+          <option value="roman_urdu">Roman Urdu</option>
+          <option value="hindi">Hindi</option>
+          <option value="arabic">Arabic</option>
+          <option value="chinese">Chinese</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="fpsLabel">Show FPS</span>
+        <div class="toggle" id="toggleFPS" data-key="showFPS"><div class="knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <span class="sr-label" data-key="particlesLabel">Particle Effects</span>
+        <div class="toggle" id="toggleParticles" data-key="particles"><div class="knob"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GAME -->
+  <div class="screen" id="screen-game">
+    <div class="hud">
+      <div class="quit-btn" id="quitBtn">&#8249;</div>
+      <div class="stat">
+        <span class="label" data-key="fruitLabel">Fruit</span>
+        <span class="value" id="score">0</span>
+      </div>
+      <div class="stat center">
+        <span class="label" data-key="foesLabel">Foes Left</span>
+        <span class="value" id="opponents">2</span>
+      </div>
+      <div class="stat right">
+        <span class="label" data-key="bestLabel">Best</span>
+        <span class="value" id="best">0</span>
+      </div>
+    </div>
+
+    <div class="board-frame">
+      <canvas id="board" width="440" height="440"></canvas>
+      <div class="fps-counter hidden" id="fpsCounter">0 FPS</div>
+      <div class="overlay hidden" id="overlay">
+        <h2 id="overlayTitle">Game Over</h2>
+        <p id="overlaySub"></p>
+        <p class="ach-toast hidden" id="achToast"></p>
+        <div class="overlay-buttons">
+          <button class="action-btn" id="nextLevelBtn" style="display:none;" data-key="nextLevel">Next Level</button>
+          <button class="action-btn" id="playAgainBtn" data-key="playAgain">Play Again</button>
+          <button class="action-btn secondary" id="menuBtn" data-key="mainMenu">Main Menu</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="controls-hint" data-key="controlsHint">Use <b>arrow keys</b> or <b>WASD</b> to move. Press <b>space</b> to pause.</p>
+
+    <div class="dpad">
+      <button class="dbtn up" data-dir="up">&#9650;</button>
+      <button class="dbtn left" data-dir="left">&#9664;</button>
+      <button class="dbtn down" data-dir="down">&#9660;</button>
+      <button class="dbtn right" data-dir="right">&#9654;</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
